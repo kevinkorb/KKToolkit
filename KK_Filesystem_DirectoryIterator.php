@@ -24,6 +24,24 @@ class KK_Filesystem_DirectoryIterator {
 		}
 
 	}
+
+	public static function get_all_subdirectories($directory) {
+		$directories = array();
+		$it = new DirectoryIterator($directory);
+		foreach($it AS $file) {
+			if($file->isDir() === true && !$file->isDot()) {
+				if(substr($file->getBasename(), 0, 1) == '.')
+				{
+					continue;
+				}
+				$directories[] = $file->getPathname();
+			}
+		}
+		sort($directories);
+		return $directories;
+
+
+	}
 	
 }
 ?>

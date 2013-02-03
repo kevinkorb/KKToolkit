@@ -92,6 +92,32 @@ class KK_HTTP {
 		ob_end_clean();
 		return $string;   
 	}
+
+	/**
+	 * Simaliar to file_get_contents but uses cURL
+	 * instead of the standard PHP Streams.
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public static function put_contents($url, $connectTimeout = 2, $totalTimout = 5)
+	{
+		$ch = curl_init();
+
+		curl_setopt ($ch, CURLOPT_URL, $url);
+		curl_setopt ($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connectTimeout);
+		curl_setopt($ch, CURLOPT_TIMEOUT, $totalTimout);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		ob_start();
+
+		curl_exec ($ch);
+		curl_close ($ch);
+		$string = ob_get_contents();
+
+		ob_end_clean();
+		return $string;
+	}
 	
 	/**
 	 * Get Secure Contents
